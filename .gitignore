@@ -164,3 +164,4 @@ test/
 /.gradle/
 /pluginIcon.ai
 /pluginIcon.png
+.intellijPlatform

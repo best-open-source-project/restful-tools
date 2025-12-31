@@ -17,13 +17,14 @@
     如果您觉得还不错，麻烦帮我点个start吧(*￣︶￣)
 
 #### 介绍
+<!-- Plugin description -->
 > 一套 Restful 服务开发辅助工具集。
 >> 1. 提供了一个 Services tree 的显示窗口;
 >> 2. 点击 URL 直接跳转到对应的方法定义;
 >> 3. 一个简单的 http 请求工具;
 >> 4. 支持 Spring 体系 (Spring MVC / Spring Boot);
 >> 5. 支持 `Navigate -> Request Service` 搜索 Mapping `Ctrl + Alt + /`;
-
+<!-- Plugin description end -->
 #### 安装
 > 1. IDEA plugin 搜索`RestfulTool`安装 (推荐)
 > 2. 从 [Jetbrains Plugins](https://plugins.jetbrains.com/plugin/14280-restfultool/versions) 仓库下载安装包

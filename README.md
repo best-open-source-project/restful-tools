@@ -27,7 +27,7 @@
 #### Install
 > 1. IDEA plugin Search for `RestfulTool` installation (recommended)
 > 2. Download the installation package from the [Jetbrains Plugins](https://plugins.jetbrains.com/plugin/14280-restfultool/versions) repository
-> 3. Download `Restful Tool.zip` in the root directory of the project and install it locally
+> 3. Download `Restful Tools.zip` in the root directory of the project and install it locally
 
 #### Use
 > * search

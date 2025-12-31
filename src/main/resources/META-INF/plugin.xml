@@ -1,13 +1,10 @@
 <idea-plugin url="https://www.jetbrains.com/idea">
-    <id>cn.cloud.auto.restful.tool</id>
-    <name>RestfulTool</name>
-    <vendor email="2862297923@qq.com" url="">ZhangYuanSheng</vendor>
+  <id>com.github.loren.restful.tools</id>
+  <name>RestfulTools</name>
+  <vendor email="cn.luowenjie@qq.com" url="https://">Loren</vendor>
 
-    <!--suppress PluginXmlValidity -->
-    <description><![CDATA[
-        <a href="https://gitee.com/zys981029/RestfulTool">Gitee</a> |<a
-                href="https://github.com/ZhangYuanSheng1217/RestfulTool">Github</a>
-
+  <!--suppress PluginXmlValidity -->
+  <description><![CDATA[
         <ul>
             <li>
                 <b>A set of auxiliary tools for Restful service development</b>
@@ -37,82 +34,85 @@
         </ul>
         ]]></description>
 
-    <idea-version since-build="201.0"/>
+  <idea-version since-build="252.*"/>
 
-    <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.modules.java</depends>
-    <depends>com.intellij.properties</depends>
-    <depends>org.jetbrains.plugins.yaml</depends>
-    <depends>org.jetbrains.kotlin</depends>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.java</depends>
+  <depends>com.intellij.properties</depends>
+  <depends>org.jetbrains.plugins.yaml</depends>
+  <depends>org.jetbrains.kotlin</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationService
-                serviceImplementation="com.github.restful.tool.configuration.RestfulSetting"/>
+  <extensions defaultExtensionNs="org.jetbrains.kotlin">
+    <supportsKotlinPluginMode supportsK2="true"/>
+  </extensions>
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService
+        serviceImplementation="com.github.loren.restful.tools.configuration.RestfulSetting"/>
 
-        <applicationConfigurable parentId="tools"
-                                 instance="com.github.restful.tool.configuration.RestfulSettingConfigurable"
-                                 id="com.github.restful.tool.configuration.RestfulSettingConfigurable"
-                                 dynamic="true"
-                                 bundle="messages.RestfulToolBundle"
-                                 key="setting.configurable.displayName"/>
+    <applicationConfigurable parentId="tools"
+        instance="com.github.loren.restful.tools.configuration.RestfulSettingConfigurable"
+        id="com.github.loren.restful.tools.configuration.RestfulSettingConfigurable"
+        dynamic="true"
+        bundle="messages.RestfulToolBundle"
+        key="setting.configurable.displayName"/>
 
-        <projectService serviceInterface="com.github.restful.tool.service.ToolWindowService"
-                        serviceImplementation="com.github.restful.tool.service.impl.ToolWindowServiceImpl"/>
+    <projectService serviceInterface="com.github.loren.restful.tools.service.ToolWindowService"
+        serviceImplementation="com.github.loren.restful.tools.service.impl.ToolWindowServiceImpl"/>
 
-        <projectService
-                serviceImplementation="com.github.restful.tool.view.search.GotoRequestConfiguration"/>
+    <projectService
+        serviceImplementation="com.github.loren.restful.tools.view.search.GotoRequestConfiguration"/>
 
-        <toolWindow id="RestfulTool" anchor="right"
-                    factoryClass="com.github.restful.tool.view.window.RestfulToolWindowFactory"
-                    order="last"
-                    doNotActivateOnStart="true" icon="AllIcons.Toolwindows.WebToolWindow"
-                    canCloseContents="true"/>
+    <toolWindow id="RestfulTools" anchor="right"
+        factoryClass="com.github.loren.restful.tools.view.window.RestfulToolWindowFactory"
+        order="last"
+        doNotActivateOnStart="true" icon="AllIcons.Toolwindows.WebToolWindow"
+        canCloseContents="true"/>
 
-        <projectService serviceInterface="com.github.restful.tool.service.Notify"
-                        serviceImplementation="com.github.restful.tool.service.impl.NotificationImpl"/>
+    <projectService serviceInterface="com.github.loren.restful.tools.service.Notify"
+        serviceImplementation="com.github.loren.restful.tools.service.impl.NotificationImpl"/>
 
-        <projectService serviceInterface="com.github.restful.tool.service.CacheService"
-                        serviceImplementation="com.github.restful.tool.service.impl.CacheServiceImpl"/>
+    <projectService serviceInterface="com.github.loren.restful.tools.service.CacheService"
+        serviceImplementation="com.github.loren.restful.tools.service.impl.CacheServiceImpl"/>
 
-        <notificationGroup displayType="BALLOON" id="RestfulTool.Notify" toolWindowId="RestfulTool"/>
-    </extensions>
+    <notificationGroup displayType="BALLOON" id="RestfulTools.Notify" toolWindowId="RestfulTools"/>
+  </extensions>
 
-    <actions>
-        <action id="Tool.GotoRequestService"
-                class="com.github.restful.tool.view.search.GotoRequestAction">
-            <add-to-group group-id="GoToTargetEx" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt SLASH"/>
-        </action>
+  <actions>
+    <action id="Tool.GotoRequestService"
+        class="com.github.loren.restful.tools.view.search.GotoRequestAction">
+      <add-to-group group-id="GoToTargetEx" anchor="first"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt SLASH"/>
+    </action>
 
-        <action id="RestfulTool.action.OptionForEditor-CurrentClassTree"
-                class="com.github.restful.tool.actions.dialog.CurrClassTreeAction">
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-        </action>
-        <group id="RestfulTool.action.OptionForEditors"
-               class="com.github.restful.tool.actions.copy.OptionForEditorGroups">
-            <add-to-group group-id="EditorPopupMenu" anchor="after"
-                          relative-to-action="RestfulTool.action.OptionForEditor-CurrentClassTree"/>
-            <action id="RestfulTool.action.OptionForEditor-NavigationServiceTreeAction"
-                    class="com.github.restful.tool.actions.copy.NavigationServiceTreeAction"/>
-            <action id="RestfulTool.action.OptionForEditor-CopyApiPath"
-                    class="com.github.restful.tool.actions.copy.CopyApiAction"/>
-            <action id="RestfulTool.action.OptionForEditor-CopyFullPath"
-                    class="com.github.restful.tool.actions.copy.CopyFullAction"/>
-        </group>
+    <action id="RestfulTools.action.OptionForEditor-CurrentClassTree"
+        class="com.github.loren.restful.tools.actions.dialog.CurrClassTreeAction">
+      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+    </action>
+    <group id="RestfulTools.action.OptionForEditors"
+        class="com.github.loren.restful.tools.actions.copy.OptionForEditorGroups">
+      <add-to-group group-id="EditorPopupMenu" anchor="after"
+          relative-to-action="RestfulTools.action.OptionForEditor-CurrentClassTree"/>
+      <action id="RestfulTools.action.OptionForEditor-NavigationServiceTreeAction"
+          class="com.github.loren.restful.tools.actions.copy.NavigationServiceTreeAction"/>
+      <action id="RestfulTools.action.OptionForEditor-CopyApiPath"
+          class="com.github.loren.restful.tools.actions.copy.CopyApiAction"/>
+      <action id="RestfulTools.action.OptionForEditor-CopyFullPath"
+          class="com.github.loren.restful.tools.actions.copy.CopyFullAction"/>
+    </group>
 
-        <group id="RestfulTool.Toolbar">
+    <group id="RestfulTools.Toolbar">
 
-            <action class="com.github.restful.tool.actions.RefreshAction"/>
+      <action class="com.github.loren.restful.tools.actions.RefreshAction"/>
 
-            <reference ref="Tool.GotoRequestService"/>
+      <reference ref="Tool.GotoRequestService"/>
 
-            <separator text="Separator"/>
+      <separator text="Separator"/>
 
-            <action class="com.github.restful.tool.actions.ScanFilterAction"/>
+      <action class="com.github.loren.restful.tools.actions.ScanFilterAction"/>
 
-            <action class="com.github.restful.tool.actions.WithLibraryAction"/>
+      <action class="com.github.loren.restful.tools.actions.WithLibraryAction"/>
 
-        </group>
-    </actions>
+    </group>
+  </actions>
 
 </idea-plugin>
