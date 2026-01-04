@@ -25,14 +25,12 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiModifierList;
 import com.intellij.psi.impl.java.stubs.index.JavaAnnotationIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -97,8 +95,12 @@ public class SpringHelper {
     }
 
     public static boolean hasRestful(@NotNull PsiClass psiClass) {
-        return psiClass.hasAnnotation(Control.Controller.getQualifiedName())
-                || psiClass.hasAnnotation(Control.RestController.getQualifiedName());
+        for (Control control : Control.values()) {
+            if (psiClass.hasAnnotation(control.getQualifiedName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -111,30 +113,18 @@ public class SpringHelper {
     @NotNull
     private static List<PsiClass> getAllControllerClass(@NotNull Project project,
             @NotNull Module module) {
-        List<PsiClass> allControllerClass = new ArrayList<>();
-
         GlobalSearchScope moduleScope = ProjectConfigUtil.getModuleScope(module);
-        Collection<PsiAnnotation> pathList = JavaAnnotationIndex.getInstance().getAnnotations(
-                Control.Controller.getName(),
-                project,
-                moduleScope
-        );
-        pathList.addAll(JavaAnnotationIndex.getInstance().getAnnotations(
-                Control.RestController.getName(),
-                project,
-                moduleScope
-        ));
-        for (PsiAnnotation psiAnnotation : pathList) {
-            PsiModifierList psiModifierList = (PsiModifierList) psiAnnotation.getParent();
-            PsiElement psiElement = psiModifierList.getParent();
-
-            if (!(psiElement instanceof PsiClass psiClass)) {
-                continue;
-            }
-
-            allControllerClass.add(psiClass);
-        }
-        return allControllerClass;
+        return Arrays.stream(Control.values())
+                .flatMap(i -> JavaAnnotationIndex.getInstance().getAnnotations(
+                        i.getName(),
+                        project,
+                        moduleScope
+                ).stream())
+                .filter(psiAnnotation ->
+                        psiAnnotation.getParent() instanceof PsiModifierList psiModifierList
+                                && psiModifierList.getParent() instanceof PsiClass)
+                .map(i -> (PsiClass) i.getParent().getParent())
+                .toList();
     }
 
     /**
@@ -347,31 +337,19 @@ public class SpringHelper {
             @NotNull final Module module) {
         try {
             JavaAnnotationIndex instance = JavaAnnotationIndex.getInstance();
-            Set<PsiAnnotation> annotations = new HashSet<>(
-                    instance.getAnnotations(Control.Controller.getName(), project,
-                            module.getModuleScope()));
-            if (!annotations.isEmpty()) {
-                for (PsiAnnotation annotation : annotations) {
-                    if (annotation == null) {
-                        continue;
-                    }
-                    if (Control.Controller.getQualifiedName()
-                            .equals(annotation.getQualifiedName())) {
-                        return true;
-                    }
-                }
-            }
-            annotations.clear();
-            annotations.addAll(instance.getAnnotations(Control.RestController.getName(), project,
-                    module.getModuleScope()));
-            if (!annotations.isEmpty()) {
-                for (PsiAnnotation annotation : annotations) {
-                    if (annotation == null) {
-                        continue;
-                    }
-                    if (Control.RestController.getQualifiedName()
-                            .equals(annotation.getQualifiedName())) {
-                        return true;
+            for (Control control : Control.values()) {
+                Set<PsiAnnotation> annotations = new HashSet<>(
+                        instance.getAnnotations(control.getName(), project,
+                                module.getModuleScope()));
+                if (!annotations.isEmpty()) {
+                    for (PsiAnnotation annotation : annotations) {
+                        if (annotation == null) {
+                            continue;
+                        }
+                        if (control.getQualifiedName()
+                                .equals(annotation.getQualifiedName())) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -383,14 +361,19 @@ public class SpringHelper {
     enum Control {
 
         /**
+         * <p>@RestController</p>
+         */
+        RestController("RestController", "org.springframework.web.bind.annotation.RestController"),
+
+        /**
          * <p>@Controller</p>
          */
         Controller("Controller", "org.springframework.stereotype.Controller"),
 
         /**
-         * <p>@RestController</p>
+         * <p>@FeignClient</p>
          */
-        RestController("RestController", "org.springframework.web.bind.annotation.RestController");
+        FeignClient("FeignClient", "org.springframework.cloud.openfeign.FeignClient");
 
         private final String name;
         private final String qualifiedName;
