@@ -16,7 +16,7 @@
                     <li>A simple http request tool</li>
                     <li>Support Spring system (Spring MVC / Spring Boot)</li>
                     <li>Support JAX-RS</li>
-                    <li>Support `Navigate-> Request Service` search Mapping (Ctrl + Alt + /)</li>
+                    <li>Support `Navigate-> Request Service` search Mapping (Ctrl + Alt + \)</li>
                 </ol>
             </li>
             <br>
@@ -28,7 +28,7 @@
                     <li>一个简单的 http 请求工具</li>
                     <li>支持 Spring 体系 (Spring MVC / Spring Boot)</li>
                     <li>支持 JAX-RS</li>
-                    <li>支持 `Navigate -> Request Service` 搜索 Mapping (Ctrl + Alt + /)</li>
+                    <li>支持 `Navigate -> Request Service` 搜索 Mapping (Ctrl + Alt + \)</li>
                 </ol>
             </li>
         </ul>
@@ -82,7 +82,7 @@
     <action id="Tool.GotoRequestService"
         class="com.github.loren.restful.tools.view.search.GotoRequestAction">
       <add-to-group group-id="GoToTargetEx" anchor="first"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt SLASH"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt BACK_SLASH"/>
     </action>
 
     <action id="RestfulTools.action.OptionForEditor-CurrentClassTree"

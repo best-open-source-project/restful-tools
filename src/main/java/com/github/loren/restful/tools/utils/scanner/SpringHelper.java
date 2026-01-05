@@ -31,6 +31,7 @@ import com.intellij.psi.impl.java.stubs.index.JavaAnnotationIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -114,17 +115,18 @@ public class SpringHelper {
     private static List<PsiClass> getAllControllerClass(@NotNull Project project,
             @NotNull Module module) {
         GlobalSearchScope moduleScope = ProjectConfigUtil.getModuleScope(module);
-        return Arrays.stream(Control.values())
-                .flatMap(i -> JavaAnnotationIndex.getInstance().getAnnotations(
-                        i.getName(),
-                        project,
-                        moduleScope
-                ).stream())
-                .filter(psiAnnotation ->
-                        psiAnnotation.getParent() instanceof PsiModifierList psiModifierList
-                                && psiModifierList.getParent() instanceof PsiClass)
-                .map(i -> (PsiClass) i.getParent().getParent())
-                .toList();
+        List<PsiClass> psiClasses = new ArrayList<>();
+        for (Control control : Control.values()) {
+            Collection<PsiAnnotation> annotations = JavaAnnotationIndex.getInstance()
+                    .getAnnotations(control.getName(), project, moduleScope);
+            for (PsiAnnotation annotation : annotations) {
+                if (annotation.getParent() instanceof PsiModifierList psiModifierList
+                        && psiModifierList.getParent() instanceof PsiClass psiClass) {
+                    psiClasses.add(psiClass);
+                }
+            }
+        }
+        return psiClasses;
     }
 
     /**

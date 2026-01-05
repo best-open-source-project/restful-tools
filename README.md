@@ -22,7 +22,7 @@
 >> 2. Click the URL to jump directly to the corresponding method definition;
 >> 3. A simple http request tool;
 >> 4. Support Spring system (Spring MVC / Spring Boot);
->> 5. Support `Navigate-> Request Service` search Mapping` Ctrl + Alt + / `;
+>> 5. Support `Navigate-> Request Service` search Mapping` Ctrl + Alt + \ `;
 
 #### Install
 > 1. IDEA plugin Search for `RestfulTool` installation (recommended)
@@ -33,7 +33,7 @@
 > * search
 >   - `navigation` > `Request Service`
 >   - hotKey
->       - default: `Ctrl + Alt + /`
+>       - default: `Ctrl + Alt + \`
 >       - change: `Setting` > `keymap` > `Plug-ins` > `RestfulTool`
 > * view
 >   - `right tool window` > `RestfulTool`

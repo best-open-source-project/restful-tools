@@ -18,9 +18,12 @@ import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.PsiMethod;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
 
 /**
  * @author ZhangYuanSheng
@@ -49,7 +52,8 @@ public class RequestUtil {
      * @return map-{key: moduleName, value: itemRequestList}
      */
     @NotNull
-    public static Map<String, List<Request>> getAllRequests(@NotNull Project project, boolean hasEmpty) {
+    public static Map<String, List<Request>> getAllRequests(@NotNull Project project,
+            boolean hasEmpty) {
         Map<String, List<Request>> map = new HashMap<>();
         REQUEST_CACHE.clear();
 
@@ -83,17 +87,19 @@ public class RequestUtil {
      * @return list
      */
     @NotNull
-    public static List<Request> getModuleRequests(@NotNull Project project, @NotNull Module module) {
+    public static List<Request> getModuleRequests(@NotNull Project project,
+            @NotNull Module module) {
         List<Request> requests = new ArrayList<>();
-
         // JAX-RS方式
-        List<Request> jaxrsRequestByModule = JaxrsHelper.getJaxrsRequestByModule(project, module);
+        List<Request> jaxrsRequestByModule = JaxrsHelper.getJaxrsRequestByModule(project,
+                module);
         if (!jaxrsRequestByModule.isEmpty()) {
             requests.addAll(jaxrsRequestByModule);
         }
 
         // Spring RESTFul方式
-        List<Request> springRequestByModule = SpringHelper.getSpringRequestByModule(project, module);
+        List<Request> springRequestByModule = SpringHelper.getSpringRequestByModule(project,
+                module);
         if (!springRequestByModule.isEmpty()) {
             requests.addAll(springRequestByModule);
         }

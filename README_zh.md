@@ -23,7 +23,7 @@
 >> 2. 点击 URL 直接跳转到对应的方法定义;
 >> 3. 一个简单的 http 请求工具;
 >> 4. 支持 Spring 体系 (Spring MVC / Spring Boot);
->> 5. 支持 `Navigate -> Request Service` 搜索 Mapping `Ctrl + Alt + /`;
+>> 5. 支持 `Navigate -> Request Service` 搜索 Mapping `Ctrl + Alt + \`;
 <!-- Plugin description end -->
 #### 安装
 > 1. IDEA plugin 搜索`RestfulTool`安装 (推荐)
@@ -34,7 +34,7 @@
 > * 搜索
 >   - `navigation(导航)` > `Request Service`
 >   - 快捷键
->       - 默认：`Ctrl + Alt + /`
+>       - 默认：`Ctrl + Alt + \`
 >       - 更换：`Setting` > `keymap` > `Plug-ins` > `RestfulTool`
 > * 视图
 >   - `right tool window(右侧工具栏)` > `RestfulTool`

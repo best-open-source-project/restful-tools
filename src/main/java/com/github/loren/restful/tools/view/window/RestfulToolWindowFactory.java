@@ -17,10 +17,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.openapi.wm.ToolWindowManager;
+import java.awt.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.awt.*;
 
 /**
  * @author ZhangYuanSheng
@@ -92,6 +91,10 @@ public class RestfulToolWindowFactory implements ToolWindowFactory {
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        ToolWindowService.getInstance(project).init(toolWindow);
+        ToolWindowService instance = ToolWindowService.getInstance(project);
+        if (instance == null) {
+            return;
+        }
+        instance.init(toolWindow);
     }
 }
